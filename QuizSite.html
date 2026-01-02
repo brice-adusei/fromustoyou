@@ -1,1 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Quiz</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    button:hover { border-color: #999; }
+    .muted { color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Listener Type Quiz</h1>
+  <p class="muted">A simple GitHub Pages site. Replace this with your real quiz.</p>
+
+  <div class="card">
+    <h2>Question 1</h2>
+    <p>What pulls you in first?</p>
+    <button onclick="pick('Lyrics')">Lyrics</button>
+    <button onclick="pick('Sonics')">Sonics</button>
+  </div>
+
+  <div class="card">
+    <h2>Result</h2>
+    <p id="result" class="muted">Pick an option above to see a result.</p>
+  </div>
+
+  <script>
+    function pick(choice) {
+      document.getElementById('result').textContent =
+        choice === 'Lyrics'
+          ? "You lean lyrics-first — you’re tuned to words, meaning, and narrative."
+          : "You lean sonics-first — you’re tuned to texture, rhythm, and production.";
+    }
+  </script>
+</body>
+</html>
 
