@@ -52,73 +52,112 @@
 
     // 2) Add questions. Each answer assigns a point to one side of one axis.
     // Tip: do 2 questions per axis (8 total) for stability.
-    const questions = [
-      {
-        text: "What grabs you first in a new track?",
-        desc: "",
-        answers: [
-          { text: "A line, story, or message", axis: "LS", side: "left" },   // L
-          { text: "The sound/texture/production", axis: "LS", side: "right"} // S
-        ]
-      },
-      {
-        text: "When a song hits, what makes it stick?",
-        desc: "",
-        answers: [
-          { text: "Lyrics I can quote or relate to", axis: "LS", side: "left" },
-          { text: "A groove/sound I want to replay", axis: "LS", side: "right"}
-        ]
-      },
-      {
-        text: "How fast do you know if you like something?",
-        desc: "",
-        answers: [
-          { text: "Quickly — within seconds", axis: "IG", side: "left" },   // I
-          { text: "It grows after a few listens", axis: "IG", side: "right"} // G
-        ]
-      },
-      {
-        text: "What’s your relationship with unfamiliar music?",
-        desc: "",
-        answers: [
-          { text: "I either feel it right away or move on", axis: "IG", side: "left" },
-          { text: "I like letting it reveal itself over time", axis: "IG", side: "right"}
-        ]
-      },
-      {
-        text: "What do you pay attention to most while listening?",
-        desc: "",
-        answers: [
-          { text: "How it makes me feel", axis: "EA", side: "left" },       // E
-          { text: "How it’s built (structure, layers, choices)", axis: "EA", side: "right"} // A
-        ]
-      },
-      {
-        text: "How do you explain a song you love?",
-        desc: "",
-        answers: [
-          { text: "I describe the mood or memory it gives me", axis: "EA", side: "left" },
-          { text: "I describe the details (drums, mix, progression)", axis: "EA", side: "right"}
-        ]
-      },
-      {
-        text: "Where does music fit best for you?",
-        desc: "",
-        answers: [
-          { text: "Private — headphones, solo moments", axis: "PC", side: "left" },  // P
-          { text: "Shared — car rides, parties, showing friends", axis: "PC", side: "right"} // C
-        ]
-      },
-      {
-        text: "When you find something amazing, what do you do?",
-        desc: "",
-        answers: [
-          { text: "Keep it as ‘mine’ for a bit", axis: "PC", side: "left" },
-          { text: "Send it to someone immediately", axis: "PC", side: "right"}
-        ]
-      }
-    ];
+const questions = [
+  // ── Lyrics vs Sonics (L / S) ──
+  {
+    text: "What grabs you first in a new track?",
+    desc: "",
+    answers: [
+      { text: "A line, story, or message", axis: "LS", side: "left" },
+      { text: "The sound, texture, or production", axis: "LS", side: "right" }
+    ]
+  },
+  {
+    text: "When a song hits, what makes it stick?",
+    desc: "",
+    answers: [
+      { text: "Lyrics I can quote or relate to", axis: "LS", side: "left" },
+      { text: "A groove or sound I want to replay", axis: "LS", side: "right" }
+    ]
+  },
+  {
+    text: "What pulls you back to a song?",
+    desc: "",
+    answers: [
+      { text: "The meaning or message", axis: "LS", side: "left" },
+      { text: "How it feels in my ears", axis: "LS", side: "right" }
+    ]
+  },
 
+  // ── Immediate vs Growing (I / G) ──
+  {
+    text: "How fast do you know if you like something?",
+    desc: "",
+    answers: [
+      { text: "Almost instantly", axis: "IG", side: "left" },
+      { text: "After a few listens", axis: "IG", side: "right" }
+    ]
+  },
+  {
+    text: "What’s your relationship with unfamiliar music?",
+    desc: "",
+    answers: [
+      { text: "I either feel it right away or move on", axis: "IG", side: "left" },
+      { text: "I like letting it grow on me", axis: "IG", side: "right" }
+    ]
+  },
+  {
+    text: "When someone recommends a song you don’t love at first…",
+    desc: "",
+    answers: [
+      { text: "I probably won’t return to it", axis: "IG", side: "left" },
+      { text: "I’ll give it a few more chances", axis: "IG", side: "right" }
+    ]
+  },
+
+  // ── Emotional vs Analytical (E / A) ──
+  {
+    text: "What do you focus on most while listening?",
+    desc: "",
+    answers: [
+      { text: "How it makes me feel", axis: "EA", side: "left" },
+      { text: "How it’s put together", axis: "EA", side: "right" }
+    ]
+  },
+  {
+    text: "How do you talk about a song you love?",
+    desc: "",
+    answers: [
+      { text: "The mood or memory it gives me", axis: "EA", side: "left" },
+      { text: "The details — structure, sounds, choices", axis: "EA", side: "right" }
+    ]
+  },
+  {
+    text: "What impresses you more in music?",
+    desc: "",
+    answers: [
+      { text: "Emotional impact", axis: "EA", side: "left" },
+      { text: "Craft and execution", axis: "EA", side: "right" }
+    ]
+  },
+
+  // ── Personal vs Communal (P / C) ──
+  {
+    text: "Where does music fit best for you?",
+    desc: "",
+    answers: [
+      { text: "Private moments, usually alone", axis: "PC", side: "left" },
+      { text: "Shared moments with other people", axis: "PC", side: "right" }
+    ]
+  },
+  {
+    text: "When you find something amazing, what do you do?",
+    desc: "",
+    answers: [
+      { text: "Keep it to myself for a while", axis: "PC", side: "left" },
+      { text: "Send it to someone straight away", axis: "PC", side: "right" }
+    ]
+  },
+  {
+    text: "Listening to music feels best when it’s…",
+    desc: "",
+    answers: [
+      { text: "Just me and the track", axis: "PC", side: "left" },
+      { text: "Something to experience with others", axis: "PC", side: "right" }
+    ]
+  }
+];
+    
     // 3) Write results for all 16 codes.
     // You can start with a few and fallback will handle the rest, then fill in later.
     const results = {
