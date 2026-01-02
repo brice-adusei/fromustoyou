@@ -3,39 +3,219 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Quiz</title>
+  <title>Listener Type Quiz</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
-    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 780px; margin: 40px auto; padding: 0 16px; line-height: 1.4; }
+    .card { border: 1px solid #ddd; border-radius: 14px; padding: 16px; margin: 16px 0; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 10px 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
     button:hover { border-color: #999; }
     .muted { color: #666; font-size: 14px; }
+    .progress { height: 8px; border-radius: 999px; background: #eee; overflow: hidden; margin-top: 10px; }
+    .progress > div { height: 100%; width: 0%; background: #333; }
+    .pill { display:inline-block; padding: 4px 10px; border:1px solid #ddd; border-radius: 999px; font-size: 13px; }
   </style>
 </head>
 <body>
   <h1>Listener Type Quiz</h1>
-  <p class="muted">A simple GitHub Pages site. Replace this with your real quiz.</p>
+  <p class="muted">Answer a few questions and get a 4-letter listener profile.</p>
 
   <div class="card">
-    <h2>Question 1</h2>
-    <p>What pulls you in first?</p>
-    <button onclick="pick('Lyrics')">Lyrics</button>
-    <button onclick="pick('Sonics')">Sonics</button>
+    <div class="row" style="justify-content: space-between; align-items: center;">
+      <div class="pill" id="counter">Question 1 of 8</div>
+      <div class="pill" id="codePreview">----</div>
+    </div>
+    <div class="progress"><div id="bar"></div></div>
+
+    <h2 id="qText" style="margin-top: 14px;"></h2>
+    <p id="qDesc" class="muted"></p>
+
+    <div class="row" id="answers"></div>
   </div>
 
-  <div class="card">
-    <h2>Result</h2>
-    <p id="result" class="muted">Pick an option above to see a result.</p>
+  <div class="card" id="resultCard" style="display:none;">
+    <h2>Your result: <span id="resultCode"></span></h2>
+    <h3 id="resultTitle" style="margin-top: 6px;"></h3>
+    <p id="resultBody"></p>
+    <p class="muted" id="resultBreakdown"></p>
+    <button onclick="restart()">Restart</button>
   </div>
 
   <script>
-    function pick(choice) {
-      document.getElementById('result').textContent =
-        choice === 'Lyrics'
-          ? "You lean lyrics-first — you’re tuned to words, meaning, and narrative.or you lean the completely over way I am just typing this to test commit"
-          : "You lean sonics-first — you’re tuned to texture, rhythm, and production.";
+    // 1) Define your axes and letters
+    const axes = {
+      LS: { left: "L", right: "S", label: "Lyrics vs Sonics" },
+      IG: { left: "I", right: "G", label: "Immediate vs Growing" },
+      EA: { left: "E", right: "A", label: "Emotional vs Analytical" },
+      PC: { left: "P", right: "C", label: "Personal vs Communal" }
+    };
+
+    // 2) Add questions. Each answer assigns a point to one side of one axis.
+    // Tip: do 2 questions per axis (8 total) for stability.
+    const questions = [
+      {
+        text: "What grabs you first in a new track?",
+        desc: "",
+        answers: [
+          { text: "A line, story, or message", axis: "LS", side: "left" },   // L
+          { text: "The sound/texture/production", axis: "LS", side: "right"} // S
+        ]
+      },
+      {
+        text: "When a song hits, what makes it stick?",
+        desc: "",
+        answers: [
+          { text: "Lyrics I can quote or relate to", axis: "LS", side: "left" },
+          { text: "A groove/sound I want to replay", axis: "LS", side: "right"}
+        ]
+      },
+      {
+        text: "How fast do you know if you like something?",
+        desc: "",
+        answers: [
+          { text: "Quickly — within seconds", axis: "IG", side: "left" },   // I
+          { text: "It grows after a few listens", axis: "IG", side: "right"} // G
+        ]
+      },
+      {
+        text: "What’s your relationship with unfamiliar music?",
+        desc: "",
+        answers: [
+          { text: "I either feel it right away or move on", axis: "IG", side: "left" },
+          { text: "I like letting it reveal itself over time", axis: "IG", side: "right"}
+        ]
+      },
+      {
+        text: "What do you pay attention to most while listening?",
+        desc: "",
+        answers: [
+          { text: "How it makes me feel", axis: "EA", side: "left" },       // E
+          { text: "How it’s built (structure, layers, choices)", axis: "EA", side: "right"} // A
+        ]
+      },
+      {
+        text: "How do you explain a song you love?",
+        desc: "",
+        answers: [
+          { text: "I describe the mood or memory it gives me", axis: "EA", side: "left" },
+          { text: "I describe the details (drums, mix, progression)", axis: "EA", side: "right"}
+        ]
+      },
+      {
+        text: "Where does music fit best for you?",
+        desc: "",
+        answers: [
+          { text: "Private — headphones, solo moments", axis: "PC", side: "left" },  // P
+          { text: "Shared — car rides, parties, showing friends", axis: "PC", side: "right"} // C
+        ]
+      },
+      {
+        text: "When you find something amazing, what do you do?",
+        desc: "",
+        answers: [
+          { text: "Keep it as ‘mine’ for a bit", axis: "PC", side: "left" },
+          { text: "Send it to someone immediately", axis: "PC", side: "right"}
+        ]
+      }
+    ];
+
+    // 3) Write results for all 16 codes.
+    // You can start with a few and fallback will handle the rest, then fill in later.
+    const results = {
+      // Format: "LIEP": { title: "...", body: "..." }
+      "S I A P".replaceAll(" ",""): {
+        title: "Sonics-first • Immediate • Analytical • Personal",
+        body: "You lock onto how music sounds and feels straight away. You notice details quickly and replay for texture, rhythm, and construction. Listening is often private, but deep."
+      },
+      "L I E C".replaceAll(" ",""): {
+        title: "Lyrics-first • Immediate • Emotional • Communal",
+        body: "You’re pulled in by words and vibe instantly, and you love sharing that feeling with other people. Music is connection — a spark you pass on."
+      }
+      // Add more codes over time...
+    };
+
+    // --- engine ---
+    let i = 0;
+    const score = { LS: {left:0,right:0}, IG: {left:0,right:0}, EA: {left:0,right:0}, PC: {left:0,right:0} };
+
+    const qText = document.getElementById("qText");
+    const qDesc = document.getElementById("qDesc");
+    const answersEl = document.getElementById("answers");
+    const counterEl = document.getElementById("counter");
+    const barEl = document.getElementById("bar");
+    const codePreviewEl = document.getElementById("codePreview");
+
+    function currentCodePreview() {
+      // Shows letters as soon as there is at least one answer per axis, otherwise '-'
+      const parts = ["LS","IG","EA","PC"].map(ax => {
+        const s = score[ax];
+        if (s.left === 0 && s.right === 0) return "-";
+        return (s.right > s.left) ? axes[ax].right : axes[ax].left;
+      });
+      return parts.join("");
     }
+
+    function render() {
+      const q = questions[i];
+      qText.textContent = q.text;
+      qDesc.textContent = q.desc || "";
+      answersEl.innerHTML = "";
+
+      counterEl.textContent = `Question ${i+1} of ${questions.length}`;
+      barEl.style.width = `${Math.round(((i) / questions.length) * 100)}%`;
+      codePreviewEl.textContent = currentCodePreview();
+
+      q.answers.forEach(a => {
+        const btn = document.createElement("button");
+        btn.textContent = a.text;
+        btn.onclick = () => {
+          score[a.axis][a.side] += 1;
+          i += 1;
+          if (i >= questions.length) finish();
+          else render();
+        };
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function finish() {
+      barEl.style.width = "100%";
+      const code = ["LS","IG","EA","PC"].map(ax => {
+        const s = score[ax];
+        return (s.right > s.left) ? axes[ax].right : axes[ax].left;
+      }).join("");
+
+      const r = results[code] || {
+        title: "Your listener profile",
+        body: "Your answers form a clear pattern — you can add a custom write-up for this code later in the results map."
+      };
+
+      document.getElementById("resultCard").style.display = "block";
+      document.getElementById("resultCode").textContent = code;
+      document.getElementById("resultTitle").textContent = r.title;
+      document.getElementById("resultBody").textContent = r.body;
+
+      const breakdown = ["LS","IG","EA","PC"].map(ax => {
+        const s = score[ax];
+        return `${axes[ax].label}: ${s.left}-${s.right}`;
+      }).join(" • ");
+      document.getElementById("resultBreakdown").textContent = breakdown;
+
+      // hide question card content
+      qText.textContent = "Done!";
+      qDesc.textContent = "Scroll to see your result.";
+      answersEl.innerHTML = "";
+      codePreviewEl.textContent = code;
+    }
+
+    function restart() {
+      i = 0;
+      for (const ax of Object.keys(score)) { score[ax].left = 0; score[ax].right = 0; }
+      document.getElementById("resultCard").style.display = "none";
+      render();
+    }
+
+    render();
   </script>
 </body>
 </html>
-
