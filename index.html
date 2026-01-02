@@ -122,17 +122,17 @@
     // 3) Write results for all 16 codes.
     // You can start with a few and fallback will handle the rest, then fill in later.
     const results = {
-      // Format: "LIEP": { title: "...", body: "..." }
-      "S I A P".replaceAll(" ",""): {
-        title: "Sonics-first • Immediate • Analytical • Personal",
-        body: "You lock onto how music sounds and feels straight away. You notice details quickly and replay for texture, rhythm, and construction. Listening is often private, but deep."
-      },
-      "L I E C".replaceAll(" ",""): {
-        title: "Lyrics-first • Immediate • Emotional • Communal",
-        body: "You’re pulled in by words and vibe instantly, and you love sharing that feeling with other people. Music is connection — a spark you pass on."
-      }
-      // Add more codes over time...
-    };
+  "SIAP": {
+    title: "Sonics-first • Immediate • Analytical • Personal",
+    body: "You lock onto how music sounds and feels straight away. You notice details quickly and replay for texture, rhythm, and construction. Listening is often private, but deep."
+  },
+  "LIEC": {
+    title: "Lyrics-first • Immediate • Emotional • Communal",
+    body: "You’re pulled in by words and vibe instantly, and you love sharing that feeling with other people. Music is connection — a spark you pass on."
+  }
+  // Add more codes over time...
+};
+
 
     // --- engine ---
     let i = 0;
