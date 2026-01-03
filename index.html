@@ -5,42 +5,363 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Listener Type Quiz</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 780px; margin: 40px auto; padding: 0 16px; line-height: 1.4; }
-    .card { border: 1px solid #ddd; border-radius: 14px; padding: 16px; margin: 16px 0; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; }
-    button { padding: 10px 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
-    button:hover { border-color: #999; }
-    .muted { color: #666; font-size: 14px; }
-    .progress { height: 8px; border-radius: 999px; background: #eee; overflow: hidden; margin-top: 10px; }
-    .progress > div { height: 100%; width: 0%; background: #333; }
-    .pill { display:inline-block; padding: 4px 10px; border:1px solid #ddd; border-radius: 999px; font-size: 13px; }
+  :root{
+    --bg: #0b0c10;
+    --card: rgba(255,255,255,0.06);
+    --cardBorder: rgba(255,255,255,0.12);
+    --text: rgba(255,255,255,0.92);
+    --muted: rgba(255,255,255,0.68);
+    --muted2: rgba(255,255,255,0.55);
+    --accent: rgba(255,255,255,0.92);
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    background: radial-gradient(1200px 800px at 20% 0%, rgba(255,255,255,0.10), transparent 60%),
+                radial-gradient(900px 600px at 90% 10%, rgba(255,255,255,0.07), transparent 55%),
+                var(--bg);
+    color: var(--text);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* accessibility */
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 12px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    z-index: 999;
+  }
+  .skip:focus { left: 12px; }
+
+  /* layout */
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(11,12,16,0.70);
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    z-index: 10;
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 14px 0;
+    gap: 16px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    min-width: 220px;
+  }
+  .brand-mark{
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display:grid;
+    place-items:center;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .brand-title{ font-weight: 700; }
+  .brand-subtitle{ color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .nav a[aria-current="page"]{
+    color: var(--text);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .site-main { padding: 28px 0 42px; }
+
+  /* hero */
+  .hero{
+    padding: 18px 0 10px;
+  }
+  .hero-title{
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1;
+    margin: 10px 0 10px;
+    letter-spacing: -0.02em;
+  }
+  .hero-lede{
+    max-width: 64ch;
+    margin: 0 0 14px;
+  }
+  .pill-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 18px;
+  }
+
+  /* components */
+  .card {
+    border: 1px solid var(--cardBorder);
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+  }
+
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; color: var(--muted2); }
+
+  .pill {
+    display:inline-block;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .progress {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .progress > div {
+    height: 100%;
+    width: 0%;
+    background: rgba(255,255,255,0.85);
+  }
+
+  .question{
+    font-size: 20px;
+    margin: 12px 0 6px;
+  }
+
+  /* buttons */
+  .btn, button{
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    font: inherit;
+  }
+  .btn:hover, button:hover{
+    border-color: rgba(255,255,255,0.30);
+    background: rgba(255,255,255,0.10);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .btn:active, button:active{
+    transform: translateY(0px);
+  }
+  .btn.primary{
+    background: rgba(255,255,255,0.92);
+    color: rgba(0,0,0,0.90);
+    border-color: rgba(255,255,255,0.92);
+    font-weight: 650;
+  }
+  .btn.primary:hover{
+    background: rgba(255,255,255,0.98);
+  }
+
+  /* answer layout */
+  .answers button{
+    flex: 1 1 260px;
+    text-align: left;
+    min-height: 48px;
+  }
+
+  /* results */
+  .result-top{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .type-code{
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .site-footer{
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.10);
+  }
+
+  /* mobile tweaks */
+  @media (max-width: 520px){
+    .header-inner{ align-items: flex-start; }
+    .brand{ min-width: unset; }
+    .type-code{ font-size: 24px; }
+  }
+  .result-explainer{
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.mini{
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+.mini-title{
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+}
+
+.mini-body{
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 520px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
   </style>
 </head>
 <body>
-  <h1>Listener Type Quiz</h1>
-  <p class="muted">Answer a few questions and get a 4-letter listener profile.</p>
+  <a class="skip" href="#quiz">Skip to quiz</a>
 
-  <div class="card">
-    <div class="row" style="justify-content: space-between; align-items: center;">
-      <div class="pill" id="counter">Question 1 of 8</div>
-      <div class="pill" id="codePreview">----</div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">FU2Y</div>
+        <div>
+          <div class="brand-title">From Us To You</div>
+          <div class="brand-subtitle">Listener Type Quiz</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" aria-current="page">Quiz</a>
+        <a href="https://substack.com/@fromustoyou" target="_blank" rel="noopener">Substack</a>
+      </nav>
     </div>
-    <div class="progress"><div id="bar"></div></div>
+  </header>
 
-    <h2 id="qText" style="margin-top: 14px;"></h2>
-    <p id="qDesc" class="muted"></p>
+  <main class="site-main">
+    <div class="container">
+      <!-- Intro / hero -->
+      <section class="hero">
+        <h1 class="hero-title">Find your listening style in ~2 minutes.</h1>
+        <p class="hero-lede muted">
+          No scores, no judgement — just a quick profile that explains how you tend to connect with music.
+        </p>
 
-    <div class="row" id="answers"></div>
-  </div>
+        <div class="pill-row" aria-label="Listening axes">
+          <span class="pill">Lyrics ↔ Sonics</span>
+          <span class="pill">Immediate ↔ Growing</span>
+          <span class="pill">Emotional ↔ Analytical</span>
+          <span class="pill">Personal ↔ Communal</span>
+        </div>
 
-  <div class="card" id="resultCard" style="display:none;">
-    <h2>Your result: <span id="resultCode"></span></h2>
-    <h3 id="resultTitle" style="margin-top: 6px;"></h3>
-    <p id="resultBody"></p>
-    <p class="muted" id="resultBreakdown"></p>
-    <button onclick="restart()">Restart</button>
-  </div>
+        <div class="hero-actions">
+          <button class="btn primary" id="startQuiz">Start the quiz</button>
+          <span class="muted small">Runs entirely in your browser.</span>
+        </div>
+        
+      </section>
 
+      <!-- Quiz -->
+      <section class="quiz" id="quiz" aria-label="Quiz" hidden>
+        <div class="card">
+          <div class="row" style="justify-content: space-between; align-items: center;">
+            <div class="pill" id="counter">Question 1 of 12</div>
+            <div class="pill" id="codePreview">----</div>
+          </div>
+
+          <div class="progress" aria-hidden="true">
+            <div id="bar"></div>
+          </div>
+
+          <h2 id="qText" class="question" style="margin-top: 14px;"></h2>
+          <p id="qDesc" class="muted"></p>
+
+          <div class="row answers" id="answers" role="group" aria-label="Answer choices"></div>
+        </div>
+
+        <div class="card" id="resultCard" style="display:none;">
+          <div class="result-top">
+            <div class="muted small">Your result</div>
+            <div class="type-code" id="resultCode"></div>
+          </div>
+
+          <h3 id="resultTitle" style="margin-top: 10px;"></h3>
+<p id="resultBody"></p>
+
+<p class="muted small" id="resultBreakdown"></p>
+
+<div class="result-explainer">
+  <h4 style="margin: 14px 0 8px;">What your letters mean</h4>
+  <div class="grid" id="letterExplainer"></div>
+</div>
+
+
+          <div class="row" style="margin-top: 10px;">
+            <button class="btn" onclick="restart()">Restart</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p class="muted small">
+          From Us To You — listener profiles are a lens, not a score.
+        </p>
+      </footer>
+    </div>
+  </main>
   <script>
     // 1) Define your axes and letters
     const axes = {
@@ -216,6 +537,49 @@ const questions = [
         answersEl.appendChild(btn);
       });
     }
+function letterMeaning(code){
+  const map = {
+    L: { label: "Lyrics-first", blurb: "you lock onto words, message, and storytelling." },
+    S: { label: "Sonics-first", blurb: "you lock onto sound, texture, groove, and production choices." },
+    I: { label: "Immediate", blurb: "you tend to know quickly if something works for you." },
+    G: { label: "Growing", blurb: "you like giving music time to reveal itself over a few listens." },
+    E: { label: "Emotional", blurb: "you focus on mood, feeling, and the moment a track creates." },
+    A: { label: "Analytical", blurb: "you notice structure, details, and how the music is built." },
+    P: { label: "Personal", blurb: "music is often a private space — something you sit with alone." },
+    C: { label: "Communal", blurb: "music is something you love sharing and experiencing with others." }
+  };
+
+  const parts = code.split("").map(ch => map[ch]);
+  const title = parts.map(p => p.label).join(" • ");
+  const body = `You’re ${parts[0].blurb} You’re ${parts[1].blurb} You’re ${parts[2].blurb} And ${parts[3].blurb}`;
+  return { title, body };
+}
+function renderLetterExplainer(code) {
+  const defs = {
+    L: { axis: "Lyrics vs Sonics", meaning: "Lyrics/story first — you lock onto words, message, and writing." },
+    S: { axis: "Lyrics vs Sonics", meaning: "Sonics first — you lock onto sound, texture, groove, and production." },
+    I: { axis: "Immediate vs Growing", meaning: "Immediate — you tend to know quickly if something works for you." },
+    G: { axis: "Immediate vs Growing", meaning: "Growing — it can take a few listens to click, and you enjoy that." },
+    E: { axis: "Emotional vs Analytical", meaning: "Emotional — mood and feeling are the main signal." },
+    A: { axis: "Emotional vs Analytical", meaning: "Analytical — craft, structure, and details stand out to you." },
+    P: { axis: "Personal vs Communal", meaning: "Personal — music is often a private space you sit with alone." },
+    C: { axis: "Personal vs Communal", meaning: "Communal — music feels best shared or discussed with others." }
+  };
+
+  const el = document.getElementById("letterExplainer");
+  if (!el) return;
+
+  const letters = code.split("");
+  el.innerHTML = letters.map(ch => {
+    const d = defs[ch];
+    return `
+      <div class="mini">
+        <div class="mini-title">${ch}</div>
+        <div class="mini-body"><b>${d.axis}:</b> ${d.meaning}</div>
+      </div>
+    `;
+  }).join("");
+}
 
     function finish() {
       barEl.style.width = "100%";
@@ -224,15 +588,14 @@ const questions = [
         return (s.right > s.left) ? axes[ax].right : axes[ax].left;
       }).join("");
 
-      const r = results[code] || {
-        title: "Your listener profile",
-        body: "Your answers form a clear pattern — you can add a custom write-up for this code later in the results map."
-      };
+      const r = results[code] || letterMeaning(code);
+
 
       document.getElementById("resultCard").style.display = "block";
       document.getElementById("resultCode").textContent = code;
       document.getElementById("resultTitle").textContent = r.title;
       document.getElementById("resultBody").textContent = r.body;
+      renderLetterExplainer(code);
 
       const breakdown = ["LS","IG","EA","PC"].map(ax => {
         const s = score[ax];
@@ -253,6 +616,13 @@ const questions = [
       document.getElementById("resultCard").style.display = "none";
       render();
     }
+    document.getElementById("resultCard").scrollIntoView({ behavior: "smooth" });
+
+document.getElementById("startQuiz").onclick = () => {
+  const quiz = document.getElementById("quiz");
+  quiz.hidden = false;
+  quiz.scrollIntoView({ behavior: "smooth" });
+};
 
     render();
   </script>
