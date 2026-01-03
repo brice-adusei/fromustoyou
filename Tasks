@@ -1,0 +1,76 @@
+HTML tasks for your quiz page (make it look better)
+1) Add proper document structure + layout wrappers
+ Wrap everything inside:
+<header> (brand + nav)
+<main> (quiz UI)
+<footer> (small text/links)
+ Inside <main>, add a centered container:
+<div class="container"> to control max width
+ Use semantic sections:
+<section class="hero"> for title/intro
+<section class="quiz"> for the active question UI
+<section class="result"> for the results UI (hidden until finished)
+2) Build a “quiz card” layout (so it doesn’t look like raw text)
+ Create a single card wrapper:
+<article class="card">
+ Inside that card, define consistent blocks:
+<div class="progress"> (progress text + progress bar)
+<h2 class="question"> (question text)
+<p class="desc"> (optional description line)
+<div class="answers"> (buttons)
+3) Replace plain answer rows with real buttons + accessible structure
+ Put answers in:
+<div class="answers" role="group" aria-label="Answer choices">
+ Use <button type="button"> for each answer (not links / not divs)
+ Ensure each question updates a single <h2> and buttons update in-place (HTML side: keep IDs/classes stable)
+4) Make the result feel like a “moment”
+ Create a dedicated result card area:
+<section class="result" hidden>
+ Include:
+“Your result” label
+Large 4-letter code element (e.g., <div class="type-code">S I A P</div>)
+2–4 sentence description block
+A “Share” row (optional): copy-to-clipboard button, or just a styled link placeholder
+“Restart” as a primary button
+5) Add a top nav even if other pages aren’t ready yet
+This alone makes it feel like a site rather than a demo.
+ Add <nav> with links:
+Home
+Quiz (current)
+Maps (placeholder page for now)
+Reviewers (placeholder page for now)
+About (placeholder page for now)
+ Mark current page:
+aria-current="page" on the Quiz link
+6) Add a progress bar element (HTML only)
+Right now you show “Question X of Y” as text. Keep it, but add:
+ <progress> element (simple + accessible), or
+ a <div class="progress-bar"><span style="width:…"></span></div> (if you prefer styling control)
+(Your JS can update the value/width, but this is an HTML task: add the element + hooks.)
+7) Add small microcopy that improves clarity
+ Under the title, add a single sentence:
+“Pick the option that feels most true — no wrong answers.”
+ Under the answers, add:
+“You can restart at any time.”
+8) Add a footer that “finishes” the page
+ Footer content:
+short line about the project
+link placeholders: “What are listening styles?” “How maps work”
+copyright/name
+Optional but high-impact HTML additions (still quiz-only)
+A) Add a “style axes” preview block under the intro
+ Add a mini section showing the 4 axes as badges/pills:
+Lyrics ↔ Sonics
+Immediate ↔ Growing
+Emotional ↔ Analytical
+Personal ↔ Communal
+This sets context before they answer anything.
+B) Add a “reviewers matching” stub under results
+Even if it’s not wired yet:
+ Add a <div class="matches"> area with 3 empty reviewer cards
+Later JS can populate it, but HTML-wise it makes the results page feel complete.
+File-based checklist (what you’ll likely edit)
+Even without seeing your repo, most GitHub Pages setups are:
+ index.html: add header/main/footer structure + quiz card markup
+ styles.css (or similar): you’ll style it after, but add the classes/IDs now
+ Any JS file: only add hooks if needed (IDs/classes), but your logic stays
