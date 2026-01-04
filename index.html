@@ -248,6 +248,12 @@ body{
   align-items: center;
   text-align: center;
 }
+/* Export mode: remove glassy tint for clean image exports */
+.exporting #shareCard{
+  background: #0b0c10 !important;
+  box-shadow: none !important;
+}
+
 .share-footer{
   margin-top: auto;              /* pushes it to the bottom */
   padding-top: 18px;
@@ -497,9 +503,11 @@ if (downloadBtn && shareCardEl) {
       await document.fonts?.ready;
 
       // 1) Generate PNG data URL from the share card
+      document.body.classList.add("exporting");
       const dataUrl = await htmlToImage.toPng(shareCardEl, {
         pixelRatio: 2,
-        cacheBust: true
+        cacheBust: true,
+        backgroundColor: "#0b0c10"
       });
 
       // 2) Convert data URL -> Blob -> File (needed for iOS share sheet)
@@ -520,6 +528,7 @@ if (downloadBtn && shareCardEl) {
         link.download = `from-us-to-you-${code}.png`;
         link.href = dataUrl;
         link.click();
+        document.body.classList.remove("exporting");
       }
     } catch (err) {
       console.error(err);
