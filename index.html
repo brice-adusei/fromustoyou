@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Listener Type Quiz</title>
   <style>
+    @font-face{
+  font-family: "IBM Plex Sans SemiCondensed";
+  src: url("assets/fonts/IBMPlexSans-Medium.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
   :root{
     --bg: #0b0c10;
     --card: rgba(255,255,255,0.06);
@@ -226,6 +234,7 @@ body{
   margin: 0 0 10px;
 }
 
+
 .share-card{
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(0,0,0,0.20);
@@ -233,7 +242,30 @@ body{
   padding: 18px;
   box-shadow: var(--shadow);
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
+.share-footer{
+  margin-top: auto;              /* pushes it to the bottom */
+  padding-top: 18px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.share-desc{
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  max-width: 36ch;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
 
 .share-logo{
   height: 28px;
@@ -249,30 +281,32 @@ body{
   letter-spacing: 0.35em; /* this creates the spaced look */
   margin: 6px 0 6px;
 }
-
-@media (max-width: 520px){
-  .share-code{ font-size: 26px; }
-  .share-logo{ height: 24px; }
+.share-code,
+.type-code,
+#resultTitle{
+  font-family: "IBM Plex Sans SemiCondensed", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
+.share-label{
+  display: block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+.share-code{
+  letter-spacing: 0.08em; /* instead of 0.35em */
+}
   .site-footer{
     margin-top: 28px;
     padding-top: 18px;
     border-top: 1px solid rgba(255,255,255,0.10);
   }
 
-/* mobile tweaks */
-@media (max-width: 520px){
-  .brand-logo img{ height: 30px; }
-
-  .header-inner{
-    align-items: center;
-  }
-
   .nav{
     gap: 10px;
   }
-}
+
 
 
 
@@ -306,10 +340,27 @@ body{
   color: var(--muted);
   font-size: 14px;
 }
-
+/* ===== Mobile layout ===== */
 @media (max-width: 520px){
+
+  /* Header */
+  .brand-logo img{ height: 30px; }
+  .header-inner{ align-items: center; }
+  .nav{ gap: 10px; }
+
+  /* Share card poster feel */
+  .share-card{
+    min-height: 60vh;
+    padding: 28px 18px;
+  }
+
+  .share-logo{ height: 24px; }
+  .share-code{ font-size: 26px; }
+
+  /* Explainer grid */
   .grid{ grid-template-columns: 1fr; }
 }
+
 
 
   </style>
@@ -398,11 +449,16 @@ body{
 <div class="share-wrap" id="shareWrap">
   <div class="share-hint muted small">Screenshot this card to share</div>
 
-  <div class="share-card" id="shareCard" aria-label="Share card">
-    <img class="share-logo" src="assets/logo1.svg" alt="From Us To You">
-    <div class="share-code" id="shareCode" aria-label="Your listener type code"></div>
-    <div class="share-label muted small">Listener type</div>
-  </div>
+  <div class="share-card" id="shareCard">
+  <div class="share-code" id="shareCode"></div>
+
+  <div class="share-desc" id="shareDesc"></div>
+
+  <div class="share-label muted small">Listener type</div>
+
+  <div class="share-footer">From Us To You</div>
+</div>
+
 </div>
 
         </div>
@@ -410,7 +466,7 @@ body{
 
       <footer class="site-footer">
         <p class="muted small">
-          From Us To You — listener profiles are a lens, not a score.
+          from us to you — listener profiles are a lens, not a score.
         </p>
       </footer>
     </div>
@@ -600,19 +656,19 @@ const questions = [
     }
 function letterMeaning(code){
   const map = {
-    L: { label: "Lyrics-first", blurb: "you lock onto words, message, and storytelling." },
-    S: { label: "Sonics-first", blurb: "you lock onto sound, texture, groove, and production choices." },
-    I: { label: "Immediate", blurb: "you tend to know quickly if something works for you." },
-    G: { label: "Growing", blurb: "you like giving music time to reveal itself over a few listens." },
-    E: { label: "Emotional", blurb: "you focus on mood, feeling, and the moment a track creates." },
-    A: { label: "Analytical", blurb: "you notice structure, details, and how the music is built." },
-    P: { label: "Personal", blurb: "music is often a private space — something you sit with alone." },
+    L: { label: "Lyrics-first", blurb: "You lock onto words, message, and storytelling. Lyrics over beats." },
+    S: { label: "Sonics-first", blurb: "You lock onto sound, texture, groove, and production choices. Beats over lyrics." },
+    I: { label: "Immediate", blurb: "You tend to know quickly if something works for you." },
+    G: { label: "Growing", blurb: "You like giving music time to reveal itself over a few listens." },
+    E: { label: "Emotional", blurb: "You focus on mood, feeling, and the moment a track creates." },
+    A: { label: "Analytical", blurb: "You notice structure, details, and how the music is built." },
+    P: { label: "Personal", blurb: "music is often a private space, something you sit with alone." },
     C: { label: "Communal", blurb: "music is something you love sharing and experiencing with others." }
   };
 
   const parts = code.split("").map(ch => map[ch]);
   const title = parts.map(p => p.label).join(" • ");
-  const body = `You’re ${parts[0].blurb} You’re ${parts[1].blurb} You’re ${parts[2].blurb} And ${parts[3].blurb}`;
+  const body = ` ${parts[0].blurb} ${parts[1].blurb} ${parts[2].blurb} And ${parts[3].blurb}`;
   return { title, body };
 }
 function renderLetterExplainer(code) {
@@ -654,7 +710,21 @@ function renderLetterExplainer(code) {
 
       document.getElementById("resultCard").style.display = "block";
       document.getElementById("resultCode").textContent = code;
-      shareCodeEl.textContent = code; 
+      shareCodeEl.textContent = code;
+       const descriptor = ["LS","IG","EA","PC"].map(ax => {
+  return (score[ax].right > score[ax].left)
+    ? axes[ax].right === "S" ? "Sonics-first"
+      : axes[ax].right === "G" ? "Growing"
+      : axes[ax].right === "A" ? "Analytical"
+      : "Communal"
+    : axes[ax].left === "L" ? "Lyrics-first"
+      : axes[ax].left === "I" ? "Immediate"
+      : axes[ax].left === "E" ? "Emotional"
+      : "Personal";
+}).join(" · ");
+
+document.getElementById("shareDesc").textContent = descriptor;
+
       document.getElementById("resultTitle").textContent = r.title;
       document.getElementById("resultBody").textContent = r.body;
       renderLetterExplainer(code);
