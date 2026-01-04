@@ -442,7 +442,8 @@ body{
 
           <div class="row" style="margin-top: 10px;">
   <button class="btn" onclick="restart()">Restart</button>
-  <button class="btn" type="button" id="shareBtn">Share</button>
+<button class="btn" type="button" id="downloadBtn">Download image</button>
+
 </div>
 
 <!-- Share container (screenshot target) -->
@@ -471,14 +472,50 @@ body{
       </footer>
     </div>
   </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+
   <script>
-    const shareBtn = document.getElementById("shareBtn");
+
 const shareWrap = document.getElementById("shareWrap");
 const shareCodeEl = document.getElementById("shareCode");
 
-shareBtn.onclick = () => {
-  shareWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-};
+const downloadBtn = document.getElementById("downloadBtn");
+const shareCardEl = document.getElementById("shareCard");
+
+if (downloadBtn && shareCardEl) {
+  downloadBtn.onclick = async () => {
+    const code = (document.getElementById("resultCode")?.textContent || "result").trim();
+
+    const originalText = downloadBtn.textContent;
+    downloadBtn.textContent = "Preparing…";
+    downloadBtn.disabled = true;
+
+    try {
+      await document.fonts?.ready;
+
+      const dataUrl = await htmlToImage.toPng(shareCardEl, {
+        pixelRatio: 2,
+        cacheBust: true
+      });
+
+      const link = document.createElement("a");
+      link.download = `from-us-to-you-${code}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error(err);
+      alert("Couldn’t generate the image — try a screenshot instead.");
+    } finally {
+      downloadBtn.textContent = originalText;
+      downloadBtn.disabled = false;
+    }
+  };
+}
+
+
+
 
     // 1) Define your axes and letters
     const axes = {
@@ -747,7 +784,7 @@ document.getElementById("shareDesc").textContent = descriptor;
       document.getElementById("resultCard").style.display = "none";
       render();
     }
-    document.getElementById("resultCard").scrollIntoView({ behavior: "smooth" });
+
 
 document.getElementById("startQuiz").onclick = () => {
   const quiz = document.getElementById("quiz");
