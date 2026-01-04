@@ -442,7 +442,7 @@ body{
 
           <div class="row" style="margin-top: 10px;">
   <button class="btn" onclick="restart()">Restart</button>
-<button class="btn" type="button" id="downloadBtn">Download image</button>
+<button class="btn" type="button" id="downloadBtn">Share image</button>
 
 </div>
 
@@ -493,26 +493,45 @@ if (downloadBtn && shareCardEl) {
     downloadBtn.disabled = true;
 
     try {
+      // Ensure fonts/layout are ready before capture
       await document.fonts?.ready;
 
+      // 1) Generate PNG data URL from the share card
       const dataUrl = await htmlToImage.toPng(shareCardEl, {
         pixelRatio: 2,
         cacheBust: true
       });
 
-      const link = document.createElement("a");
-      link.download = `from-us-to-you-${code}.png`;
-      link.href = dataUrl;
-      link.click();
+      // 2) Convert data URL -> Blob -> File (needed for iOS share sheet)
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], `from-us-to-you-${code}.png`, { type: "image/png" });
+
+      // 3) Try native share sheet with image (iOS Safari supports this in many cases)
+      if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+        downloadBtn.textContent = "Opening share…";
+        await navigator.share({
+          files: [file],
+          title: "From Us To You",
+          text: `My listener type: ${code}`
+        });
+      } else {
+        // 4) Fallback: download the PNG
+        const link = document.createElement("a");
+        link.download = `from-us-to-you-${code}.png`;
+        link.href = dataUrl;
+        link.click();
+      }
     } catch (err) {
       console.error(err);
-      alert("Couldn’t generate the image — try a screenshot instead.");
+      // Final fallback if anything goes wrong: tell them to screenshot
+      alert("Couldn’t share as an image here — try downloading or screenshotting the card.");
     } finally {
       downloadBtn.textContent = originalText;
       downloadBtn.disabled = false;
     }
   };
 }
+
 
 
 
