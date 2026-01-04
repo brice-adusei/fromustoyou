@@ -218,6 +218,42 @@ body{
     font-weight: 800;
     letter-spacing: 0.18em;
   }
+.share-wrap{
+  margin-top: 14px;
+}
+
+.share-hint{
+  margin: 0 0 10px;
+}
+
+.share-card{
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.20);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.share-logo{
+  height: 28px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: 12px;
+  opacity: 0.95;
+}
+
+.share-code{
+  font-size: 30px;
+  font-weight: 850;
+  letter-spacing: 0.35em; /* this creates the spaced look */
+  margin: 6px 0 6px;
+}
+
+@media (max-width: 520px){
+  .share-code{ font-size: 26px; }
+  .share-logo{ height: 24px; }
+}
 
   .site-footer{
     margin-top: 28px;
@@ -354,8 +390,21 @@ body{
 
 
           <div class="row" style="margin-top: 10px;">
-            <button class="btn" onclick="restart()">Restart</button>
-          </div>
+  <button class="btn" onclick="restart()">Restart</button>
+  <button class="btn" type="button" id="shareBtn">Share</button>
+</div>
+
+<!-- Share container (screenshot target) -->
+<div class="share-wrap" id="shareWrap">
+  <div class="share-hint muted small">Screenshot this card to share</div>
+
+  <div class="share-card" id="shareCard" aria-label="Share card">
+    <img class="share-logo" src="assets/logo1.svg" alt="From Us To You">
+    <div class="share-code" id="shareCode" aria-label="Your listener type code"></div>
+    <div class="share-label muted small">Listener type</div>
+  </div>
+</div>
+
         </div>
       </section>
 
@@ -367,6 +416,14 @@ body{
     </div>
   </main>
   <script>
+    const shareBtn = document.getElementById("shareBtn");
+const shareWrap = document.getElementById("shareWrap");
+const shareCodeEl = document.getElementById("shareCode");
+
+shareBtn.onclick = () => {
+  shareWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
     // 1) Define your axes and letters
     const axes = {
       LS: { left: "L", right: "S", label: "Lyrics vs Sonics" },
@@ -597,10 +654,10 @@ function renderLetterExplainer(code) {
 
       document.getElementById("resultCard").style.display = "block";
       document.getElementById("resultCode").textContent = code;
+      shareCodeEl.textContent = code; 
       document.getElementById("resultTitle").textContent = r.title;
       document.getElementById("resultBody").textContent = r.body;
       renderLetterExplainer(code);
-
       const breakdown = ["LS","IG","EA","PC"].map(ax => {
         const s = score[ax];
         return `${axes[ax].label}: ${s.left}-${s.right}`;
