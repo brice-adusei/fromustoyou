@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="342.6058mm"
+   height="47.752026mm"
+   viewBox="0 0 342.60581 47.752026"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f750, 2025-12-25)"
+   sodipodi:docname="logo1.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.44949012"
+     inkscape:cx="799.79512"
+     inkscape:cy="-125.69798"
+     inkscape:window-width="1190"
+     inkscape:window-height="1186"
+     inkscape:window-x="1783"
+     inkscape:window-y="106"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="229.14853"
+       y="-1072.3261"
+       width="271.41865"
+       height="491.66821"
+       id="rect4" />
+    <rect
+       x="24.588432"
+       y="116.79505"
+       width="252.03143"
+       height="577.82819"
+       id="rect3" />
+    <rect
+       x="150.92534"
+       y="697.37915"
+       width="3788.7463"
+       height="806.66992"
+       id="rect2" />
+    <rect
+       x="64.525414"
+       y="96.788116"
+       width="1696.5734"
+       height="324.85208"
+       id="rect1" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-7.1999706,-9.540971)">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text1"
+       style="writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect1);display:inline;fill:#000000" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-34.154869,-183.78572)"
+       id="text2"
+       style="font-size:192px;letter-spacing:10px;word-spacing:5px;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect2);display:inline;fill:#000000"><tspan
+         x="150.92578"
+         y="872.76352"
+         id="tspan5"><tspan
+           dx="0 0 0 0 -5 5 0 -5 5 0 -5 5"
+           style="font-stretch:semi-condensed;font-family:'IBM Plex Sans SemiCondensed';-inkscape-font-specification:'IBM Plex Sans SemiCondensed,  Semi-Condensed';fill:#ffffff"
+           id="tspan1">from us to you</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text3"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:192px;font-family:'IBM Plex Sans SemiCondensed';-inkscape-font-specification:'IBM Plex Sans SemiCondensed,  Italic Semi-Condensed';letter-spacing:20px;word-spacing:20px;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect3);display:inline;fill:#000000" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,7.1999706,9.540971)"
+       id="text4"
+       style="fill:#f9f9f9;text-orientation:auto;writing-mode:lr-tb;direction:ltr;-inkscape-font-specification:'IBM Plex Sans SemiCondensed,  Italic Semi-Condensed';font-family:'IBM Plex Sans SemiCondensed';font-weight:normal;font-style:italic;font-stretch:semi-condensed;font-variant:normal;font-size:192px;letter-spacing:10px;word-spacing:5px;white-space:pre;shape-inside:url(#rect4)" />
+  </g>
+</svg>
