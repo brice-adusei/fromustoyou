@@ -663,18 +663,73 @@ const questions = [
     
     // 3) Write results for all 16 codes.
     // You can start with a few and fallback will handle the rest, then fill in later.
-    const results = {
-  "SIAP": {
-    title: "Sonics-first • Immediate • Analytical • Personal",
-    body: "You lock onto how music sounds and feels straight away. You notice details quickly and replay for texture, rhythm, and construction. Listening is often private, but deep."
-  },
-  "LIEC": {
-    title: "Lyrics-first • Immediate • Emotional • Communal",
-    body: "You’re pulled in by words and vibe instantly, and you love sharing that feeling with other people. Music is connection — a spark you pass on."
-  }
-  // Add more codes over time...
+    const results = 
+    {
+"SIAP": {
+"title": "Sonics-first · Immediate · Analytical · Personal",
+"body": "You connect to music primarily through sound, and you tend to know very quickly when something works for you. Texture, rhythm, and structure register almost immediately, often before you consider context or meaning. A track does not need time to grow if its sonic language is clear from the outset.\n\nYou often listen with focused attention, replaying sections to stay with the details that first caught your ear. Small choices such as transitions, rhythmic shifts, or subtle layering matter more than lyrical content. Listening is usually private and immersive, allowing you to sit closely with the construction of sound.\n\nFrom the outside, this can appear restrained or selective. In practice, it reflects deep respect for how music is built and a sensitivity to sonic intention rather than surface impact."
+},
+"SIAC": {
+"title": "Sonics-first · Immediate · Analytical · Communal",
+"body": "You notice strong production quickly and enjoy engaging with sound through conversation. Sonic qualities register fast for you, and sharing music becomes a way of examining how it is constructed rather than simply reacting to it.\n\nYou often point out textures, mixes, or rhythmic decisions as invitations rather than judgements. Talking through sound helps sharpen your listening and opens space for different perspectives. Music becomes more interesting when it is discussed rather than consumed silently.\n\nWhat may sometimes read as opinionated usually comes from curiosity. You are interested in understanding sound more clearly by exploring it with others."
+},
+"SIEP": {
+"title": "Sonics-first · Immediate · Emotional · Personal",
+"body": "You respond instinctively to how music feels, often forming a connection before you have time to analyse it. Atmosphere, tone, and energy register quickly, shaping your emotional state almost immediately. Sound itself is the primary signal.\n\nYou tend to listen inwardly, letting music influence mood without needing explanation. Certain tracks become emotional anchors, tied to sensations or internal states rather than narratives. Listening is personal and often private.\n\nThis immediacy is not impulsive. It reflects trust in your emotional response to sound and an ability to recognise when something resonates without overthinking it."
+},
+"SIEC": {
+"title": "Sonics-first · Immediate · Emotional · Communal",
+"body": "You are drawn immediately to how music feels and enjoy experiencing that response with others. Sound becomes a shared atmosphere rather than a solitary experience. What matters most is how it lands in the moment.\n\nYou often play music out loud, pass tracks around, or use sound to shape collective moods. Emotional response is amplified through shared presence rather than individual reflection. Music supports connection in real time.\n\nYour warmth comes from immediacy, recognising a feeling and inviting others into it without hesitation."
+},
+"LIAP": {
+"title": "Lyrics-first · Immediate · Analytical · Personal",
+"body": "You connect to music through language, and you tend to recognise strong writing almost immediately. A line, a turn of phrase, or a structural choice can be enough for you to decide whether something is worth your attention. Meaning matters to you, but so does how that meaning is shaped and delivered.\n\nYou often listen with focus, returning to specific sections to understand the construction rather than to chase a feeling. Careful phrasing, economy of words, and intentional structure stand out, and you are quick to notice when writing feels unfocused or overstated. Listening is usually a private space, a way of thinking through music rather than performing a reaction to it.\n\nFrom the outside, this can sometimes come across as selective or reserved. In practice, it reflects respect for clarity and craft, and an attentiveness to language that allows well written songs to hold their weight without excess."
+},
+"SGAP": {
+"title": "Sonics-first · Growing · Analytical · Personal",
+"body": "You are drawn to sound that takes time to reveal itself. Rather than reacting to immediate impact, you prefer music that rewards patience through layered arrangements, evolving structures, or subtle production choices. What interests you most is how sound develops across repeated listens.\n\nYou often return to the same tracks deliberately, listening closely for details that may have gone unnoticed before. Over time, small shifts in rhythm, texture, or spatial placement become more meaningful. Listening feels inward and focused, guided by curiosity rather than emotion.\n\nThis quieter approach can appear reserved. In reality, it reflects care and attentiveness, giving sound the space it needs to fully unfold."
+},
+"SGAC": {
+"title": "Sonics-first · Growing · Analytical · Communal",
+"body": "You enjoy discovering sound gradually, especially when that process is shared. Music becomes more engaging when it is revisited, discussed, and examined over time rather than judged on first impression. Understanding builds through collective attention.\n\nYou may return to albums or tracks with others, finding that conversation helps surface details you might not have noticed alone. Talking about structure, texture, or progression deepens your listening and keeps discovery active. Meaning emerges through shared exploration.\n\nYour warmth comes from collaboration, staying with sound long enough for it to fully reveal itself together."
+},
+"LIAC": {
+"title": "Lyrics-first · Immediate · Analytical · Communal",
+"body": "You recognise strong writing quickly and enjoy engaging with it through conversation. Lyrics register fast for you, and you are drawn to how ideas are expressed as much as what they express. Music often becomes a starting point for discussion rather than a finished statement.\n\nYou like sharing songs as a way of exchanging interpretations, pointing out lines, themes, or structural choices that stand out. Talking about lyrics helps sharpen your understanding, and differences in interpretation feel productive rather than conflicting. Meaning becomes clearer through dialogue.\n\nThis way of listening can sometimes be mistaken for critique. In reality, it reflects curiosity and generosity, a desire to understand language more fully by placing it in conversation with others."
+},
+"LIEP": {
+"title": "Lyrics-first · Immediate · Emotional · Personal",
+"body": "You respond quickly to lyrics that carry feeling, and a single line can be enough to pull you in. Words often connect directly to memory or mood, and that recognition tends to happen almost instantly. Music feels personal from the outset.\n\nYou listen inwardly, letting lyrics resonate without needing to analyse or explain them. Songs often become emotional markers, tied to moments, people, or internal states, and you may return to the same track when you want to reconnect with that feeling. Listening is usually private and reflective.\n\nOthers may not always see what a song holds for you. That privacy is not distance, but a way of protecting the meaning you find there."
+},
+"LIEC": {
+"title": "Lyrics-first · Immediate · Emotional · Communal",
+"body": "You are drawn immediately to lyrical emotion and enjoy sharing that response with others. Music feels like a shortcut to connection, allowing you to express something that might otherwise stay unspoken. Meaning arrives quickly and invites exchange.\n\nYou often send songs as gestures, ways of saying this is how this feels or this made me think of you. Talking about lyrics helps deepen the emotional impact rather than dilute it. Shared listening becomes a way of staying emotionally aligned.\n\nThis openness can look effortless. In practice, it reflects sensitivity to language and trust in your emotional response."
+},
+"LGAP": {
+"title": "Lyrics-first · Growing · Analytical · Personal",
+"body": "You prefer to let lyrical meaning unfold gradually rather than announcing itself immediately. Songs do not need to reveal everything at once, and you are comfortable sitting with ambiguity while ideas settle into place. Understanding builds over time.\n\nYou often return to the same tracks with renewed attention, noticing different themes, patterns, or structural choices as your perspective changes. Listening feels reflective and inward, guided by patience rather than urgency. Language becomes richer through repetition.\n\nThis slower engagement can appear distant from the outside. In reality, it reflects commitment and care, a willingness to stay with words until they show you more."
+},
+"LGAC": {
+"title": "Lyrics-first · Growing · Analytical · Communal",
+"body": "You enjoy exploring lyrical depth gradually, especially through shared discussion. Meaning becomes clearer when it is revisited, questioned, and viewed from different angles over time. Music is something you return to rather than react to.\n\nYou may revisit albums or songs across months or years, finding that conversations around them evolve alongside the music itself. Discussion is less about conclusions and more about process. Understanding deepens through accumulation.\n\nYour engagement may seem quiet at first. Over time, it creates space for collective insight and shared clarity."
+},
+"LGEP": {
+"title": "Lyrics-first · Growing · Emotional · Personal",
+"body": "You tend to form connections with songs slowly, allowing lyrical meaning to deepen over time. A track may not stand out immediately, but repeated listening often reveals emotional weight that feels increasingly personal. What matters is not first impact, but lasting resonance.\n\nYou return to songs at different points in your life, finding that lyrics take on new significance as circumstances change. Listening is reflective and inward, with music becoming a quiet companion rather than something to explain. Meaning grows alongside experience.\n\nThis patience can look understated from the outside. In practice, it reflects emotional attentiveness and a willingness to let meaning arrive in its own time."
+},
+"LGEC": {
+"title": "Lyrics-first · Growing · Emotional · Communal",
+"body": "You enjoy letting lyrical meaning unfold gradually, particularly when it is shared. Songs often gain importance through repetition, conversation, and shared memory rather than instant connection. Emotional depth emerges through continuity.\n\nYou may return to tracks with others, discovering that talking about lyrics changes how they land. Meaning becomes something shaped collectively, with different interpretations adding richness rather than confusion. Music supports long term connection.\n\nYour warmth comes from return and remembrance, from staying with songs and people across time."
+},
+"SGEP": {
+"title": "Sonics-first · Growing · Emotional · Personal",
+"body": "You tend to form connections with music slowly, allowing sound to settle before it takes on emotional weight. Atmosphere, texture, and tone often deepen through repetition, revealing their impact over time rather than on first listen. What matters to you is how a track continues to feel as you live with it.\n\nYou often listen alone, using music to support mood, reflection, or a sense of continuity. Subtle elements become increasingly meaningful the longer you stay with them, and familiarity can make sound feel comforting rather than predictable. Listening is restorative, not demanding.\n\nThis patience reflects emotional attentiveness. You allow sound to become part of your internal landscape instead of asking it to perform immediately."
+},
+"SGEC": {
+"title": "Sonics-first · Growing · Emotional · Communal",
+"body": "You enjoy letting sound build gradually, especially when it accompanies shared time with others. Music gains emotional meaning through repetition and presence rather than instant impact. Atmosphere becomes richer as it is experienced across moments rather than isolated listens.\n\nYou may return to the same tracks or albums with friends, allowing sound to form a backdrop for connection rather than a focal point for analysis. Music supports shared mood and memory, creating familiarity that feels grounding. Listening together feels natural and unforced.\n\nYour warmth comes from continuity. Sound becomes meaningful because it is lived with collectively over time."
+}
 };
-
 
     // --- engine ---
     let i = 0;
