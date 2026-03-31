@@ -381,6 +381,69 @@ body{
   color: var(--muted);
   font-size: 14px;
 }
+
+.axis-bars{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  display: grid;
+  gap: 14px;
+}
+
+.axis-bar{
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+}
+
+.axis-bar-title{
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.axis-bar-labels{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.axis-bar-labels span:last-child{
+  text-align: right;
+}
+
+.axis-track{
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  overflow: visible;
+  background: linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.10) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.axis-marker{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.96);
+  border: 2px solid rgba(11,12,16,0.65);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.08);
+  transform: translate(-50%, -50%);
+}
+
+.axis-lean{
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
 /* ===== Mobile layout ===== */
 @media (max-width: 520px){
 
@@ -405,6 +468,9 @@ body{
   }
   .scale-buttons{
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .axis-bar{
+    padding: 12px;
   }
 }
 
@@ -480,6 +546,56 @@ body{
 <p id="resultBody"></p>
 
 <p class="muted small" id="resultBreakdown"></p>
+
+<div class="axis-bars" id="axisBars" aria-label="Listening axis leans">
+  <div class="axis-bar" id="axisBarLS">
+    <h4 class="axis-bar-title">Lyrics vs Sonics</h4>
+    <div class="axis-bar-labels">
+      <span>Lyrics</span>
+      <span>Sonics</span>
+    </div>
+    <div class="axis-track">
+      <div class="axis-marker" id="axisMarkerLS"></div>
+    </div>
+    <p class="axis-lean" id="axisLeanLS">Balanced</p>
+  </div>
+
+  <div class="axis-bar" id="axisBarIG">
+    <h4 class="axis-bar-title">Immediate vs Growing</h4>
+    <div class="axis-bar-labels">
+      <span>Immediate</span>
+      <span>Growing</span>
+    </div>
+    <div class="axis-track">
+      <div class="axis-marker" id="axisMarkerIG"></div>
+    </div>
+    <p class="axis-lean" id="axisLeanIG">Balanced</p>
+  </div>
+
+  <div class="axis-bar" id="axisBarEA">
+    <h4 class="axis-bar-title">Emotional vs Analytical</h4>
+    <div class="axis-bar-labels">
+      <span>Emotional</span>
+      <span>Analytical</span>
+    </div>
+    <div class="axis-track">
+      <div class="axis-marker" id="axisMarkerEA"></div>
+    </div>
+    <p class="axis-lean" id="axisLeanEA">Balanced</p>
+  </div>
+
+  <div class="axis-bar" id="axisBarPC">
+    <h4 class="axis-bar-title">Personal vs Communal</h4>
+    <div class="axis-bar-labels">
+      <span>Personal</span>
+      <span>Communal</span>
+    </div>
+    <div class="axis-track">
+      <div class="axis-marker" id="axisMarkerPC"></div>
+    </div>
+    <p class="axis-lean" id="axisLeanPC">Balanced</p>
+  </div>
+</div>
 
 <div class="result-explainer">
   <h4 style="margin: 14px 0 8px;">What your letters mean</h4>
@@ -594,98 +710,174 @@ if (downloadBtn && shareCardEl) {
       PC: { left: "P", right: "C", label: "Personal vs Communal" }
     };
 
-    // 2) Add questions. Each question uses a 5-point anchored scale.
+    // 2) Each question defines its own 5 answer buttons with side and weight.
 const questions = [
-  // ── Lyrics vs Sonics (L / S) ──
+  // ── Lyrics vs Sonics (LS) ──
   {
-    text: "What grabs you first in a new track?",
-    desc: "",
-    axis: "LS",
-    leftLabel: "A line, story, or message",
-    rightLabel: "The sound, texture, or production"
+    text: "What tends to grab you first in a new track?",
+    answers: [
+      { text: "Strongly the lyrics or message", axis: "LS", side: "left", weight: 2 },
+      { text: "Slightly the lyrics", axis: "LS", side: "left", weight: 1 },
+      { text: "Both equally", axis: "LS", side: "neutral", weight: 0 },
+      { text: "Slightly the sound", axis: "LS", side: "right", weight: 1 },
+      { text: "Strongly the sound or production", axis: "LS", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "When a song hits, what makes it stick?",
-    desc: "",
-    axis: "LS",
-    leftLabel: "Lyrics I can quote or relate to",
-    rightLabel: "A groove or sound I want to replay"
+    text: "When a song stays with you, what is usually the reason?",
+    answers: [
+      { text: "The meaning or words", axis: "LS", side: "left", weight: 2 },
+      { text: "Mostly the lyrics", axis: "LS", side: "left", weight: 1 },
+      { text: "Both equally", axis: "LS", side: "neutral", weight: 0 },
+      { text: "Mostly the sound", axis: "LS", side: "right", weight: 1 },
+      { text: "The sound or feel of it", axis: "LS", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "What pulls you back to a song?",
-    desc: "",
-    axis: "LS",
-    leftLabel: "The meaning or message",
-    rightLabel: "How it feels in my ears"
-  },
-
-  // ── Immediate vs Growing (I / G) ──
-  {
-    text: "How fast do you know if you like something?",
-    desc: "",
-    axis: "IG",
-    leftLabel: "Almost instantly",
-    rightLabel: "After a few listens"
+    text: "When you are really listening, what do you focus on most?",
+    answers: [
+      { text: "The lyrics and meaning", axis: "LS", side: "left", weight: 2 },
+      { text: "Mostly the lyrics", axis: "LS", side: "left", weight: 1 },
+      { text: "Both equally", axis: "LS", side: "neutral", weight: 0 },
+      { text: "Mostly the sound", axis: "LS", side: "right", weight: 1 },
+      { text: "The sound and production", axis: "LS", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "What’s your relationship with unfamiliar music?",
-    desc: "",
-    axis: "IG",
-    leftLabel: "I either feel it right away or move on",
-    rightLabel: "I like letting it grow on me"
-  },
-  {
-    text: "When someone recommends a song you don’t love at first…",
-    desc: "",
-    axis: "IG",
-    leftLabel: "I probably won’t return to it",
-    rightLabel: "I’ll give it a few more chances"
+    text: "If a track had to sacrifice one, which matters more?",
+    answers: [
+      { text: "Strong lyrics, even if the sound is simple", axis: "LS", side: "left", weight: 2 },
+      { text: "Slightly prefer lyrics", axis: "LS", side: "left", weight: 1 },
+      { text: "Hard to choose", axis: "LS", side: "neutral", weight: 0 },
+      { text: "Slightly prefer sound", axis: "LS", side: "right", weight: 1 },
+      { text: "Strong sound, even if lyrics are minimal", axis: "LS", side: "right", weight: 2 }
+    ]
   },
 
-  // ── Emotional vs Analytical (E / A) ──
+  // ── Immediate vs Growing (IG) ──
   {
-    text: "What do you focus on most while listening?",
-    desc: "",
-    axis: "EA",
-    leftLabel: "How it makes me feel",
-    rightLabel: "How it’s put together"
+    text: "How quickly do you usually know if you like a track?",
+    answers: [
+      { text: "Immediately", axis: "IG", side: "left", weight: 2 },
+      { text: "Fairly quickly", axis: "IG", side: "left", weight: 1 },
+      { text: "It depends", axis: "IG", side: "neutral", weight: 0 },
+      { text: "Takes a few listens", axis: "IG", side: "right", weight: 1 },
+      { text: "Often grows over time", axis: "IG", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "How do you talk about a song you love?",
-    desc: "",
-    axis: "EA",
-    leftLabel: "The mood or memory it gives me",
-    rightLabel: "The details, structure, sounds, choices"
+    text: "What is your experience with songs you end up loving?",
+    answers: [
+      { text: "I usually like them straight away", axis: "IG", side: "left", weight: 2 },
+      { text: "Often like them early", axis: "IG", side: "left", weight: 1 },
+      { text: "Mixed", axis: "IG", side: "neutral", weight: 0 },
+      { text: "They grow on me", axis: "IG", side: "right", weight: 1 },
+      { text: "They take time to click", axis: "IG", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "What impresses you more in music?",
-    desc: "",
-    axis: "EA",
-    leftLabel: "Emotional impact",
-    rightLabel: "Craft and execution"
+    text: "When a song does not click at first, what do you do?",
+    answers: [
+      { text: "Move on quickly", axis: "IG", side: "left", weight: 2 },
+      { text: "Usually skip it", axis: "IG", side: "left", weight: 1 },
+      { text: "Depends", axis: "IG", side: "neutral", weight: 0 },
+      { text: "Give it another try", axis: "IG", side: "right", weight: 1 },
+      { text: "Revisit it multiple times", axis: "IG", side: "right", weight: 2 }
+    ]
+  },
+  {
+    text: "Which feels more rewarding?",
+    answers: [
+      { text: "A song that hits instantly", axis: "IG", side: "left", weight: 2 },
+      { text: "Mostly instant impact", axis: "IG", side: "left", weight: 1 },
+      { text: "Both equally", axis: "IG", side: "neutral", weight: 0 },
+      { text: "A song that grows", axis: "IG", side: "right", weight: 1 },
+      { text: "A slow reveal over time", axis: "IG", side: "right", weight: 2 }
+    ]
   },
 
-  // ── Personal vs Communal (P / C) ──
+  // ── Emotional vs Analytical (EA) ──
   {
-    text: "Where does music fit best for you?",
-    desc: "",
-    axis: "PC",
-    leftLabel: "Private moments, usually alone",
-    rightLabel: "Shared moments with other people"
+    text: "When listening, what stands out most?",
+    answers: [
+      { text: "How it makes me feel", axis: "EA", side: "left", weight: 2 },
+      { text: "Mostly the feeling", axis: "EA", side: "left", weight: 1 },
+      { text: "Both equally", axis: "EA", side: "neutral", weight: 0 },
+      { text: "Mostly how it is built", axis: "EA", side: "right", weight: 1 },
+      { text: "How it is structured", axis: "EA", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "When you find something amazing, what do you do?",
-    desc: "",
-    axis: "PC",
-    leftLabel: "Keep it to myself for a while",
-    rightLabel: "Send it to someone straight away"
+    text: "When you describe a song, what do you focus on?",
+    answers: [
+      { text: "Mood or feeling", axis: "EA", side: "left", weight: 2 },
+      { text: "Mostly emotion", axis: "EA", side: "left", weight: 1 },
+      { text: "Both equally", axis: "EA", side: "neutral", weight: 0 },
+      { text: "Details or structure", axis: "EA", side: "right", weight: 1 },
+      { text: "How it is constructed", axis: "EA", side: "right", weight: 2 }
+    ]
   },
   {
-    text: "Listening to music feels best when it’s…",
-    desc: "",
-    axis: "PC",
-    leftLabel: "Just me and the track",
-    rightLabel: "Something to experience with others"
+    text: "What leaves a stronger impression?",
+    answers: [
+      { text: "Emotional impact", axis: "EA", side: "left", weight: 2 },
+      { text: "Mostly emotional", axis: "EA", side: "left", weight: 1 },
+      { text: "Both equally", axis: "EA", side: "neutral", weight: 0 },
+      { text: "Craft and detail", axis: "EA", side: "right", weight: 1 },
+      { text: "Execution and structure", axis: "EA", side: "right", weight: 2 }
+    ]
+  },
+  {
+    text: "Which do you value more?",
+    answers: [
+      { text: "Feeling something strongly", axis: "EA", side: "left", weight: 2 },
+      { text: "Mostly emotional impact", axis: "EA", side: "left", weight: 1 },
+      { text: "Both equally", axis: "EA", side: "neutral", weight: 0 },
+      { text: "Strong construction", axis: "EA", side: "right", weight: 1 },
+      { text: "Well-built composition", axis: "EA", side: "right", weight: 2 }
+    ]
+  },
+
+  // ── Personal vs Communal (PC) ──
+  {
+    text: "Where does music feel most natural?",
+    answers: [
+      { text: "Alone, in private", axis: "PC", side: "left", weight: 2 },
+      { text: "Mostly alone", axis: "PC", side: "left", weight: 1 },
+      { text: "Both equally", axis: "PC", side: "neutral", weight: 0 },
+      { text: "Mostly with others", axis: "PC", side: "right", weight: 1 },
+      { text: "Shared with others", axis: "PC", side: "right", weight: 2 }
+    ]
+  },
+  {
+    text: "When you find a great song, what do you do first?",
+    answers: [
+      { text: "Keep it to myself", axis: "PC", side: "left", weight: 2 },
+      { text: "Usually keep it", axis: "PC", side: "left", weight: 1 },
+      { text: "Depends", axis: "PC", side: "neutral", weight: 0 },
+      { text: "Sometimes share it", axis: "PC", side: "right", weight: 1 },
+      { text: "Share it straight away", axis: "PC", side: "right", weight: 2 }
+    ]
+  },
+  {
+    text: "What kind of listening do you enjoy more?",
+    answers: [
+      { text: "Being alone with music", axis: "PC", side: "left", weight: 2 },
+      { text: "Mostly alone", axis: "PC", side: "left", weight: 1 },
+      { text: "Both equally", axis: "PC", side: "neutral", weight: 0 },
+      { text: "Mostly with others", axis: "PC", side: "right", weight: 1 },
+      { text: "Experiencing it together", axis: "PC", side: "right", weight: 2 }
+    ]
+  },
+  {
+    text: "What makes music more meaningful?",
+    answers: [
+      { text: "My personal connection", axis: "PC", side: "left", weight: 2 },
+      { text: "Mostly personal meaning", axis: "PC", side: "left", weight: 1 },
+      { text: "Both equally", axis: "PC", side: "neutral", weight: 0 },
+      { text: "Shared experiences", axis: "PC", side: "right", weight: 1 },
+      { text: "Connection with others", axis: "PC", side: "right", weight: 2 }
+    ]
   }
 ];
     
@@ -762,10 +954,10 @@ const questions = [
     // --- engine ---
     let i = 0;
     const score = {
-      LS: { value: 0, lean: 0, left: 0, right: 0 },
-      IG: { value: 0, lean: 0, left: 0, right: 0 },
-      EA: { value: 0, lean: 0, left: 0, right: 0 },
-      PC: { value: 0, lean: 0, left: 0, right: 0 }
+      LS: { left: 0, right: 0 },
+      IG: { left: 0, right: 0 },
+      EA: { left: 0, right: 0 },
+      PC: { left: 0, right: 0 }
     };
 
     const qText = document.getElementById("qText");
@@ -787,10 +979,7 @@ const questions = [
 
     function resolveAxisLetter(axis) {
       const s = score[axis];
-      if (s.value > 0) return axes[axis].right;
-      if (s.value < 0) return axes[axis].left;
-      if (s.lean > 0) return axes[axis].right;
-      return axes[axis].left;
+      return (s.right > s.left) ? axes[axis].right : axes[axis].left;
     }
 
     function render() {
@@ -806,41 +995,32 @@ const questions = [
       const wrapper = document.createElement("div");
       wrapper.className = "scale-wrap";
 
+      const axisNames = {
+        LS: { left: "Lyrics", right: "Sonics" },
+        IG: { left: "Immediate", right: "Growing" },
+        EA: { left: "Emotional", right: "Analytical" },
+        PC: { left: "Personal", right: "Communal" }
+      };
+
       const labels = document.createElement("div");
       labels.className = "scale-labels";
-      labels.innerHTML = `<span>${q.leftLabel}</span><span>${q.rightLabel}</span>`;
+      labels.innerHTML = `<span>${axisNames[q.answers[0].axis].left}</span><span>${axisNames[q.answers[0].axis].right}</span>`;
 
       const buttonGroup = document.createElement("div");
       buttonGroup.className = "scale-buttons";
       buttonGroup.setAttribute("role", "group");
-      buttonGroup.setAttribute("aria-label", `Choose how strongly you lean between ${q.leftLabel} and ${q.rightLabel}`);
+      buttonGroup.setAttribute("aria-label", `Choose your answer for ${q.text}`);
 
-      const choices = [
-        { value: 1, text: "Strongly\nleft" },
-        { value: 2, text: "Slightly\nleft" },
-        { value: 3, text: "In the\nmiddle" },
-        { value: 4, text: "Slightly\nright" },
-        { value: 5, text: "Strongly\nright" }
-      ];
-
-      choices.forEach(choice => {
+      q.answers.forEach(a => {
         const button = document.createElement("button");
         button.className = "scale-btn";
         button.type = "button";
-        button.innerHTML = choice.text.replace("\n", "<br>");
-        button.setAttribute("aria-label", `${choice.text.replace("\n", " ")} between ${q.leftLabel} and ${q.rightLabel}`);
+        button.textContent = a.text;
+        button.setAttribute("aria-label", a.text);
 
         button.onclick = () => {
-          const delta = choice.value - 3;
-          const axisScore = score[q.axis];
-
-          axisScore.value += delta;
-          if (delta > 0) {
-            axisScore.right += delta;
-            axisScore.lean += 1;
-          } else if (delta < 0) {
-            axisScore.left += Math.abs(delta);
-            axisScore.lean -= 1;
+          if (a.side !== "neutral") {
+            score[a.axis][a.side] += a.weight;
           }
 
           i += 1;
@@ -898,6 +1078,34 @@ function renderLetterExplainer(code) {
   }).join("");
 }
 
+function updateAxisBars() {
+  const axisNames = {
+    LS: { left: "Lyrics", right: "Sonics" },
+    IG: { left: "Immediate", right: "Growing" },
+    EA: { left: "Emotional", right: "Analytical" },
+    PC: { left: "Personal", right: "Communal" }
+  };
+
+  Object.keys(axisNames).forEach(ax => {
+    const s = score[ax];
+    const total = s.left + s.right;
+    const position = total === 0 ? 0.5 : s.right / total;
+    const marker = document.getElementById(`axisMarker${ax}`);
+    const lean = document.getElementById(`axisLean${ax}`);
+
+    if (marker) {
+      marker.style.left = `${position * 100}%`;
+    }
+
+    if (lean) {
+      lean.textContent =
+        s.left === s.right ? "Balanced" :
+        s.left > s.right ? `Leans ${axisNames[ax].left}` :
+        `Leans ${axisNames[ax].right}`;
+    }
+  });
+}
+
     function finish() {
       barEl.style.width = "100%";
       const code = ["LS","IG","EA","PC"].map(ax => {
@@ -922,16 +1130,13 @@ function renderLetterExplainer(code) {
       : "Personal";
 }).join(" · ");
 
-document.getElementById("shareDesc").textContent = descriptor;
+      document.getElementById("shareDesc").textContent = descriptor;
 
       document.getElementById("resultTitle").textContent = r.title;
       document.getElementById("resultBody").textContent = r.body;
+      updateAxisBars();
       renderLetterExplainer(code);
-      const breakdown = ["LS","IG","EA","PC"].map(ax => {
-        const s = score[ax];
-        return `${axes[ax].label}: ${s.value > 0 ? "+" : ""}${s.value}`;
-      }).join(" • ");
-      document.getElementById("resultBreakdown").textContent = breakdown;
+      document.getElementById("resultBreakdown").textContent = "";
 
       // hide question card content
       qText.textContent = "Done!";
@@ -943,8 +1148,6 @@ document.getElementById("shareDesc").textContent = descriptor;
     function restart() {
       i = 0;
       for (const ax of Object.keys(score)) {
-        score[ax].value = 0;
-        score[ax].lean = 0;
         score[ax].left = 0;
         score[ax].right = 0;
       }
